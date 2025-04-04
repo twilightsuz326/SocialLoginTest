@@ -1,5 +1,6 @@
 import './bootstrap';
 
+import { AuthProvider } from './components/AuthContext';
 import NavBar from './components/NavBar';
 import Home from './components/Home';
 import About from './components/About';
@@ -11,8 +12,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'; //追加(ルー
 const container = document.getElementById("app");
 const root = createRoot(container);
 
+
 root.render(
-    <>
+    <AuthProvider>
         <BrowserRouter>
             <NavBar />
             <Routes>
@@ -20,5 +22,5 @@ root.render(
                 <Route path="/home" element={<Home />} />
             </Routes>
         </BrowserRouter>
-    </>
+    </AuthProvider>
 );
