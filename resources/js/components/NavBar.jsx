@@ -8,7 +8,7 @@ function NavBar() {
             <NavLink to="/about">About</NavLink>
             <NavLink to="/home">Home</NavLink>
             <a href="/auth/google">Google Login</a>
-            <a href="/auth/twitter">Twitter Login</a>
+            <NavLink to="/posts">Posts</NavLink>
         </div>
     );
 }

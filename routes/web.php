@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SocialAuthController;
 
@@ -17,6 +18,11 @@ use App\Http\Controllers\SocialAuthController;
 Route::get('auth/{provider}', [SocialAuthController::class, 'redirectToProvider']);
 Route::get('auth/{provider}/callback', [SocialAuthController::class, 'handleProviderCallback']);
 
+
 Route::get('{any}', function () {
     return view('app');
 })->where('any', '.*');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/my-posts', [PostController::class, 'index']);
+});
