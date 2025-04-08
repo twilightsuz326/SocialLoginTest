@@ -21,17 +21,28 @@ class SocialAuthController extends Controller
             return redirect('/login')->with('error', '認証に失敗しました。');
         }
 
-        // ユーザーの検索または作成
-        $user = User::updateOrCreate(
-            ['provider' => $provider, 'provider_id' => $socialUser->getId()],
-            [
+        $user = User::where('email', $socialUser->getEmail())->first();
+
+        if (!$user) {
+            $user = new User([
                 'name' => $socialUser->getName(),
                 'email' => $socialUser->getEmail(),
                 'password' => bcrypt(uniqid())
-            ]
-        );
+            ]);
+        }
 
-        // ログイン処理
+        // プロバイダーに応じてIDを保存
+        switch ($provider) {
+            case 'google':
+                $user->google_id = $socialUser->getId();
+                break;
+            case 'line':
+                $user->line_id = $socialUser->getId();
+                break;
+        }
+
+        $user->save();
+
         Auth::login($user);
         session()->regenerate();
 
